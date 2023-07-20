@@ -16,7 +16,7 @@ type ReentrantMutexCheckable struct {
 	passed_counter int64
 }
 
-func NewReentranMutexCheckable(locked bool) *ReentrantMutexCheckable {
+func NewReentrantMutexCheckable(locked bool) *ReentrantMutexCheckable {
 	self := new(ReentrantMutexCheckable)
 	self.main_mtx = golockercheckable.NewMutexCheckable(false)
 	self.local_mtx = golockercheckable.NewMutexCheckable(false)
