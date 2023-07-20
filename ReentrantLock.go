@@ -1,8 +1,6 @@
 package goreentrantlock
 
 import (
-	"sync"
-
 	"github.com/AnimusPEXUS/golockercheckable"
 	"github.com/AnimusPEXUS/goroutineid"
 )
@@ -13,7 +11,7 @@ var _ golockercheckable.LockerCheckable = &ReentrantMutexCheckable{}
 // Unlock() on unlocked Mutex - doesn't lead to error
 type ReentrantMutexCheckable struct {
 	main_mtx       *golockercheckable.MutexCheckable
-	local_mtx      *sync.Mutex
+	local_mtx      *golockercheckable.MutexCheckable
 	passed_id      uint64
 	passed_counter int64
 }
@@ -21,7 +19,7 @@ type ReentrantMutexCheckable struct {
 func NewReentranMutexCheckable(locked bool) *ReentrantMutexCheckable {
 	self := new(ReentrantMutexCheckable)
 	self.main_mtx = golockercheckable.NewMutexCheckable(false)
-	self.local_mtx = new(sync.Mutex)
+	self.local_mtx = golockercheckable.NewMutexCheckable(false)
 	if locked {
 		self.main_mtx.Lock()
 	}
