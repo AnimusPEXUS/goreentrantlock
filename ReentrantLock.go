@@ -90,3 +90,30 @@ func (self *ReentrantMutexCheckable) Unlock() {
 	}
 
 }
+
+func (self *ReentrantMutexCheckable) IsLocakedByMe() (locked bool, byme bool) {
+	self.local_mtx.Lock()
+	defer self.local_mtx.Unlock()
+
+	id, err := goroutineid.GetCurrentGoId_byRuntimeStack()
+	if err != nil {
+		panic("can't get goroutine id")
+	}
+
+	if self.passed_counter > 0 {
+		return true, id == self.passed_id
+	} else {
+		return false, false
+	}
+}
+
+func (self *ReentrantMutexCheckable) LocekdByWho() (locked bool, goid uint64) {
+	self.local_mtx.Lock()
+	defer self.local_mtx.Unlock()
+
+	if self.passed_counter > 0 {
+		return true, self.passed_id
+	} else {
+		return false, 0
+	}
+}
